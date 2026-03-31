@@ -40,3 +40,11 @@ func RespondDirectFunc(f func(src io.ReadCloser, w http.ResponseWriter, gzipped 
 		return nil
 	}
 }
+
+// TokenHandling sets the token handling
+func TokenHandling(th TokenHandlingInfo) ServiceOption {
+	return func(sc *ServiceContext) error {
+		sc.tokenHandling = th
+		return nil
+	}
+}

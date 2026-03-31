@@ -11,6 +11,7 @@ import (
 )
 
 var (
+	ErrMetaUnset                  = errors.New("meta unset")
 	ErrLogFuncUnset               = errors.New("log function unset")
 	ErrRespondFunctionUnset       = errors.New("respond function unset")
 	ErrRespondBytesFunctionUnset  = errors.New("respond bytes function unset")
@@ -20,23 +21,33 @@ var (
 type ServiceContext struct {
 	appctx.Meta
 	Cache             ck.Cache
+	tokenHandling     TokenHandlingInfo // Token handling
 	logFunc           func(msgType l.LogType, message ...string)
 	respondFunc       func(data any, w http.ResponseWriter, r *http.Request) error                    // Respond function
 	respondBytesFunc  func(data []byte, fileExt string, w http.ResponseWriter, r *http.Request) error // RespondBytes function
 	respondDirectFunc func(src io.ReadCloser, w http.ResponseWriter, gzipped bool, mime string) error // RespondDirect function
 }
 
+type TokenHandlingInfo struct {
+	Valid         bool
+	ValidateTimes bool
+	ValidateAppID bool
+}
+
 func NewServiceContext(
 	mt *appctx.Meta,
 	so ...ServiceOption,
-) *ServiceContext {
+) (*ServiceContext, error) {
+	if mt == nil {
+		return nil, ErrMetaUnset
+	}
 	sc := ServiceContext{
 		Meta: *mt,
 	}
 	for _, o := range so {
 		o(&sc)
 	}
-	return &sc
+	return &sc, nil
 }
 
 // Log messages into the server
@@ -70,4 +81,9 @@ func (cs *ServiceContext) RespondDirect(src io.ReadCloser, w http.ResponseWriter
 		return ErrRespondDirectFunctionUnset
 	}
 	return (cs.respondDirectFunc)(src, w, gzipped, mime)
+}
+
+// TokenHandling returns the token handling info
+func (cs *ServiceContext) TokenHandling() TokenHandlingInfo {
+	return cs.tokenHandling
 }
