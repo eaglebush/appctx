@@ -33,7 +33,7 @@ func ServiceID(id string) MetaOption {
 // Config sets the configuration
 func Config(cfgOpts cfg.Configuration) MetaOption {
 	return func(d *Meta) error {
-		d.Configuration = cfgOpts
+		d.config = &cfgOpts
 		return nil
 	}
 }

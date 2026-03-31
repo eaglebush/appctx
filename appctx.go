@@ -1,6 +1,7 @@
 package appctx
 
 import (
+	"errors"
 	"sync"
 
 	cfg "github.com/eaglebush/config"
@@ -8,18 +9,37 @@ import (
 	evt "github.com/stdutil/event"
 )
 
+var (
+	ErrConfigurationUnset = errors.New("configuration unset")
+)
+
 type (
 	Meta struct {
 		ApplicationID string
 		ServiceID     string
 		LibraryID     string
-		Configuration cfg.Configuration
 		EventSubject  *evt.EventSubject // Event subject for event generation
 		Lock          *sync.RWMutex
 		miscVar       *vm.ValueMap[string, any]
+		config        *cfg.Configuration
 	}
 	MetaOption func(do *Meta) error
 )
+
+func NewMeta(mo ...MetaOption) *Meta {
+	mt := Meta{}
+	for _, o := range mo {
+		o(&mt)
+	}
+	if mt.Lock == nil {
+		mt.Lock = &sync.RWMutex{}
+	}
+	// Create a value map that requires external lock
+	// The Lock field will take care of it
+	mv := vm.NewExternalLock[string, any]()
+	mt.miscVar = mv
+	return &mt
+}
 
 // GetVarToType returns the value to a specified type.
 //
@@ -68,4 +88,12 @@ func (mt *Meta) SetEventSubject() {
 		mt.EventSubject = &evt.EventSubject{}
 	}
 	*mt.EventSubject = evt.NewEventSubjectBase(mt.ApplicationID, mt.ServiceID, mt.LibraryID)
+}
+
+// GetConfig returns a verified configuration
+func (mt *Meta) GetConfig() (*cfg.Configuration, error) {
+	if mt.config == nil {
+		return nil, ErrConfigurationUnset
+	}
+	return mt.config, nil
 }
