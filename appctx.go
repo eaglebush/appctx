@@ -50,6 +50,23 @@ func NewMeta(mo ...MetaOption) *Meta {
 	return &mt
 }
 
+// Copy copies an existeng meta and then updates members via MetaOptions
+func Copy(m *Meta, mo ...MetaOption) *Meta {
+	mt := Meta{
+		ApplicationID: m.ApplicationID,
+		ServiceID:     m.ServiceID,
+		LibraryID:     m.LibraryID,
+		EventSubject:  m.EventSubject,
+		Lock:          m.Lock,
+		miscVar:       m.miscVar.Clone(m.Lock),
+		config:        m.config,
+	}
+	for _, o := range mo {
+		o(&mt)
+	}
+	return &mt
+}
+
 // GetVarToType returns the value to a specified type.
 //
 // If the map is nil, name does not exist or invalid return type, this will return the zero value of the type indicated
