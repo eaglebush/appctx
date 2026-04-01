@@ -3,6 +3,8 @@ package datactx
 import (
 	"context"
 	"time"
+
+	"github.com/eaglebush/datainfo"
 )
 
 type DataOption func(so *DataContext) error
@@ -35,6 +37,16 @@ func CacheDuration(durInMilSecs int) DataOption {
 func Context(ctx context.Context) DataOption {
 	return func(dc *DataContext) error {
 		dc.Context = ctx
+		return nil
+	}
+}
+
+// DataInfo sets the database info
+func DataInfo(dain ...datainfo.DataOption) DataOption {
+	return func(dc *DataContext) error {
+		for _, o := range dain {
+			o(&dc.DataInfo)
+		}
 		return nil
 	}
 }
