@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/eaglebush/cachekit"
-	l "github.com/stdutil/log"
+	l "github.com/stdutil/log/v2"
 )
 
 type ServiceOption func(so *ServiceContext) error

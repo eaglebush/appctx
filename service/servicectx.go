@@ -7,7 +7,7 @@ import (
 
 	"github.com/eaglebush/appctx"
 	ck "github.com/eaglebush/cachekit"
-	l "github.com/stdutil/log"
+	l "github.com/stdutil/log/v2"
 )
 
 var (
