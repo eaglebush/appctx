@@ -4,10 +4,19 @@ import (
 	"io"
 	"net/http"
 
+	"github.com/eaglebush/cachekit"
 	l "github.com/stdutil/log"
 )
 
 type ServiceOption func(so *ServiceContext) error
+
+// Cache sets the cache
+func Cache(c cachekit.Cache) ServiceOption {
+	return func(sc *ServiceContext) error {
+		sc.Cache = c
+		return nil
+	}
+}
 
 // LogFunc sets the Log function
 func LogFunc(f func(msgType l.LogType, message ...string)) ServiceOption {
