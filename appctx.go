@@ -34,6 +34,15 @@ func NewMeta(mo ...MetaOption) *Meta {
 	if mt.Lock == nil {
 		mt.Lock = &sync.RWMutex{}
 	}
+	if mt.ApplicationID == "" {
+		mt.ApplicationID = "DEFAULT"
+	}
+	if mt.ServiceID == "" {
+		mt.ServiceID = "DEFAULT"
+	}
+	if mt.LibraryID == "" {
+		mt.LibraryID = "DEFAULT"
+	}
 	// Create a value map that requires external lock
 	// The Lock field will take care of it
 	mv := vm.NewExternalLock[string, any]()

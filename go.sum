@@ -1,5 +1,5 @@
-github.com/eaglebush/cachekit v0.0.0-20260331083104-79f1ec41ce99 h1:7BSaaLCgvvPPZZ6Sk5jKJtBJKQd2UgOr64RtFHl7WLA=
-github.com/eaglebush/cachekit v0.0.0-20260331083104-79f1ec41ce99/go.mod h1:vFf6zPWqPzQYQlU7mUV0f0RHPIbbITv6kxbxYPbtTPQ=
+github.com/eaglebush/cachekit v0.1.0 h1:avC0Bz9pmpvyRm5LnOJgSeROQ7kS0zTGwEvI3Bos1lY=
+github.com/eaglebush/cachekit v0.1.0/go.mod h1:vFf6zPWqPzQYQlU7mUV0f0RHPIbbITv6kxbxYPbtTPQ=
 github.com/eaglebush/config v0.1.4 h1:MXxMTLC6iDQjTb93PxRY5rqJFnkv1707/k4Cwl9lQ1o=
 github.com/eaglebush/config v0.1.4/go.mod h1:UkGigEfx+L8E6iSiy130RcUrBl3SV9DPbisdV212wf8=
 github.com/eaglebush/datainfo v0.1.0 h1:tDQg2UcPrw6Lkjj98L3IS6hCCu4IhDCMr9Md4mb2maM=
