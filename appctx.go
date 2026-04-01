@@ -64,6 +64,7 @@ func Copy(m *Meta, mo ...MetaOption) *Meta {
 	for _, o := range mo {
 		o(&mt)
 	}
+	m.SetEventSubject() // Internally update event subject
 	return &mt
 }
 
