@@ -28,6 +28,10 @@ type (
 
 func NewMeta(mo ...MetaOption) *Meta {
 	mt := Meta{}
+	// Create a value map that requires external lock
+	// The Lock field will take care of it
+	mv := vm.NewExternalLock[string, any]()
+	mt.miscVar = mv
 	for _, o := range mo {
 		o(&mt)
 	}
@@ -43,10 +47,6 @@ func NewMeta(mo ...MetaOption) *Meta {
 	if mt.LibraryID == "" {
 		mt.LibraryID = "DEFAULT"
 	}
-	// Create a value map that requires external lock
-	// The Lock field will take care of it
-	mv := vm.NewExternalLock[string, any]()
-	mt.miscVar = mv
 	return &mt
 }
 
