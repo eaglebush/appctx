@@ -28,15 +28,15 @@ type (
 
 func NewMeta(mo ...MetaOption) *Meta {
 	mt := Meta{}
+	if mt.Lock == nil {
+		mt.Lock = &sync.RWMutex{}
+	}
 	// Create a value map that requires external lock
 	// The Lock field will take care of it
 	mv := vm.NewExternalLock[string, any]()
 	mt.miscVar = mv
 	for _, o := range mo {
 		o(&mt)
-	}
-	if mt.Lock == nil {
-		mt.Lock = &sync.RWMutex{}
 	}
 	if mt.ApplicationID == "" {
 		mt.ApplicationID = "DEFAULT"
