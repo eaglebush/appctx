@@ -39,3 +39,10 @@ func NewDataContext(
 	}
 	return &dc, nil
 }
+
+// WithContext sets the context of the returned DataContext without affecting the original context
+func (obj *DataContext) WithContext(ctx context.Context) *DataContext {
+	oc := *obj
+	oc.Context = ctx
+	return &oc
+}
