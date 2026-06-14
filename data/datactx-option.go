@@ -4,10 +4,19 @@ import (
 	"context"
 	"time"
 
+	"github.com/eaglebush/appctx"
 	"github.com/eaglebush/datainfo"
 )
 
 type DataOption func(so *DataContext) error
+
+// Meta copies the application context to the data context
+func Meta(m *appctx.Meta) DataOption {
+	return func(dc *DataContext) error {
+		dc.Meta = *appctx.Copy(m)
+		return nil
+	}
+}
 
 // ResultPrefix sets the prefix of the result
 func ResultPrefix(pfx string) DataOption {
