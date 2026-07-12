@@ -23,9 +23,9 @@ type ServiceContext struct {
 	Cache             ck.Cache
 	tokenHandling     TokenHandlingInfo // Token handling
 	logFunc           func(msgType l.LogType, message ...string)
-	respondFunc       func(data any, w http.ResponseWriter, r *http.Request) error                    // Respond function
-	respondBytesFunc  func(data []byte, fileExt string, w http.ResponseWriter, r *http.Request) error // RespondBytes function
-	respondDirectFunc func(src io.ReadCloser, w http.ResponseWriter, gzipped bool, mime string) error // RespondDirect function
+	respondFunc       func(data any, w http.ResponseWriter, r *http.Request) error                                                // Respond function
+	respondBytesFunc  func(data []byte, fileExt string, w http.ResponseWriter, r *http.Request) error                             // RespondBytes function
+	respondDirectFunc func(src io.ReadCloser, w http.ResponseWriter, r *http.Request, mime string, size int64, etag string) error // RespondDirect function
 }
 
 type TokenHandlingInfo struct {
@@ -76,11 +76,11 @@ func (cs *ServiceContext) RespondBytes(data []byte, fileExt string, w http.Respo
 }
 
 // RespondDirect to API query
-func (cs *ServiceContext) RespondDirect(src io.ReadCloser, w http.ResponseWriter, gzipped bool, mime string) error {
+func (cs *ServiceContext) RespondDirect(src io.ReadCloser, w http.ResponseWriter, r *http.Request, mime string, size int64, etag string) error {
 	if cs.respondDirectFunc == nil {
 		return ErrRespondDirectFunctionUnset
 	}
-	return (cs.respondDirectFunc)(src, w, gzipped, mime)
+	return (cs.respondDirectFunc)(src, w, r, mime, size, etag)
 }
 
 // TokenHandling returns the token handling info

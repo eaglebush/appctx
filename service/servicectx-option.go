@@ -43,7 +43,7 @@ func RespondBytesFunc(f func(data []byte, fileExt string, w http.ResponseWriter,
 }
 
 // RespondDirectFunc sets the responseDirect function
-func RespondDirectFunc(f func(src io.ReadCloser, w http.ResponseWriter, gzipped bool, mime string) error) ServiceOption {
+func RespondDirectFunc(f func(src io.ReadCloser, w http.ResponseWriter, r *http.Request, mime string, size int64, etag string) error) ServiceOption {
 	return func(sc *ServiceContext) error {
 		sc.respondDirectFunc = f
 		return nil
