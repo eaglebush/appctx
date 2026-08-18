@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/eaglebush/appctx"
+	"github.com/eaglebush/cachekit"
 	"github.com/eaglebush/datainfo"
 )
 
@@ -30,6 +31,14 @@ func ResultPrefix(pfx string) DataOption {
 func CacheKeyPrefix(pfx string) DataOption {
 	return func(dc *DataContext) error {
 		dc.CacheKeyPrefix = pfx
+		return nil
+	}
+}
+
+// Cache sets the cache interface
+func Cache(c cachekit.Cache) DataOption {
+	return func(dc *DataContext) error {
+		dc.Cache = c
 		return nil
 	}
 }
