@@ -47,6 +47,7 @@ func NewMeta(mo ...MetaOption) *Meta {
 	if mt.LibraryID == "" {
 		mt.LibraryID = "DEFAULT"
 	}
+	mt.SetEventSubject() // Internally update event subject
 	return &mt
 }
 

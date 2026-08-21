@@ -47,6 +47,7 @@ func NewServiceContext(
 	for _, o := range so {
 		o(&sc)
 	}
+	sc.SetEventSubject()
 	return &sc, nil
 }
 

@@ -38,6 +38,7 @@ func NewDataContext(
 	for _, o := range do {
 		o(&dc)
 	}
+	dc.SetEventSubject() // Internally update event subject
 	return &dc, nil
 }
 
@@ -55,6 +56,7 @@ func Copy(dc DataContext, do ...DataOption) *DataContext {
 	for _, o := range do {
 		o(&newDC)
 	}
+	newDC.SetEventSubject() // Internally update event subject
 	return &newDC
 }
 
